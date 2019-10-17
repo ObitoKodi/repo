@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
 
-#  ..#######.########.#######.##....#..######..######.########....###...########.#######.########..######.
-#  .##.....#.##.....#.##......###...#.##....#.##....#.##.....#...##.##..##.....#.##......##.....#.##....##
-#  .##.....#.##.....#.##......####..#.##......##......##.....#..##...##.##.....#.##......##.....#.##......
-#  .##.....#.########.######..##.##.#..######.##......########.##.....#.########.######..########..######.
-#  .##.....#.##.......##......##..###.......#.##......##...##..########.##.......##......##...##........##
-#  .##.....#.##.......##......##...##.##....#.##....#.##....##.##.....#.##.......##......##....##.##....##
-#  ..#######.##.......#######.##....#..######..######.##.....#.##.....#.##.......#######.##.....#..######.
-
 '''
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +16,7 @@
 '''
 
 import re
+
 from openscrapers.modules import cleantitle
 from openscrapers.modules import client
 
@@ -74,7 +67,9 @@ class source:
                         i = client.request(i).replace("\\", "")
                         u = re.findall('"(https.+?)"', i)
                         for url in u:
-                            sources.append({'source': 'CDN', 'quality': quality, 'language': 'en', 'url': url, 'direct': False, 'debridonly': False})
+                            sources.append(
+                                {'source': 'CDN', 'quality': quality, 'language': 'en', 'url': url, 'direct': False,
+                                 'debridonly': False})
 
                 return sources
         except Exception:

@@ -15,10 +15,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-# Addon Name: OpenScrapers Module
-# Addon id: script.module.openscrapers
-
 import re
 import unicodedata
 
@@ -34,7 +30,22 @@ def get(title):
     title = re.sub('&#(\d);', '', title)
     title = re.sub('(&#[0-9]+)([^;^0-9]+)', '\\1;\\2', title)
     title = title.replace('&quot;', '\"').replace('&amp;', '&')
-    title = re.sub('\n|([[].+?[]])|([(].+?[)])|\s(vs|v[.])\s|(:|;|-|"|,|\'|_|\.|\?)|\s', '', title)
+    title = re.sub('\n|([[].+?[]])|([(].+?[)])|\s(vs|v[.])\s|(:|;|-|"|,|\'|\_|\.|\?)|\s', '', title)
+    return title.lower()
+
+
+def get_title(title):
+    if title is None:
+        return
+    try:
+        title = title.encode('utf-8')
+    except:
+        pass
+    title = str(title)
+    title = re.sub('&#(\d);', '', title)
+    title = re.sub('(&#[0-9]+)([^;^0-9]+)', '\\1;\\2', title)
+    title = title.replace('&quot;', '\"').replace('&amp;', '&')
+    title = re.sub('\n|([[].+?[]])|([(].+?[)])|\s(vs|v[.])\s|(:|;|-|"|,|\'|\_|\.|\?)|\s', '', title)
     return title.lower()
 
 
@@ -49,6 +60,23 @@ def geturl(title):
     return title
 
 
+def get_url(title):
+    if title is None:
+        return
+    title = title.replace(' ', '%20')
+    return title
+
+
+def get_gan_url(title):
+    if title is None:
+        return
+    title = title.lower()
+    title = title.replace('-', '+')
+    title = title.replace(' + ', '+-+')
+    title = title.replace(' ', '%20')
+    return title
+
+
 def get_simple(title):
     if title is None:
         return
@@ -57,7 +85,8 @@ def get_simple(title):
     title = re.sub('&#(\d+);', '', title)
     title = re.sub('(&#[0-9]+)([^;^0-9]+)', '\\1;\\2', title)
     title = title.replace('&quot;', '\"').replace('&amp;', '&')
-    title = re.sub('\n|\(|\)|\[|\]|\{|\}|\s(vs|v[.])\s|(:|;|-|–|"|,|\'|_|\.|\?)|\s', '', title).lower()
+    title = re.sub('\n|\(|\)|\[|\]|\{|\}|\s(vs|v[.])\s|(:|;|-|–|"|,|\'|\_|\.|\?)|\s', '', title).lower()
+    title = re.sub(r'<.*?>', '', title, count=0)
     return title
 
 
@@ -76,6 +105,13 @@ def query(title):
     if title is None:
         return
     title = title.replace('\'', '').rsplit(':', 1)[0].rsplit(' -', 1)[0].replace('-', ' ')
+    return title
+
+
+def get_query(title):
+    if title is None:
+        return
+    title = title.replace(' ', '.').replace(':', '').replace('.-.', '.').replace('\'', '')
     return title
 
 
